@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Was it in Epstein's files?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: #202124;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding-top: 60px;
+            padding-bottom: 200px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 5.5rem;
+            font-weight: 700;
+            color: #202124;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: -2px;
+        }
+        
+        .logo span:nth-child(1) { color: #4285F4; }
+        .logo span:nth-child(2) { color: #EA4335; }
+        .logo span:nth-child(3) { color: #FBBC05; }
+        .logo span:nth-child(4) { color: #4285F4; }
+        .logo span:nth-child(5) { color: #34A853; }
+        .logo span:nth-child(6) { color: #EA4335; }
+        
+        .search-container {
+            width: 100%;
+            max-width: 584px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+        }
+        
+        .search-box:hover {
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(223, 225, 229, 0);
+        }
+        
+        .search-box.focused {
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(223, 225, 229, 0);
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 0 10px;
+            background: transparent;
+        }
+        
+        .search-input::placeholder {
+            color: #9aa0a6;
+        }
+        
+        .search-icon {
+            color: #9aa0a6;
+            font-size: 14px;
+        }
+        
+        .search-buttons {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
+            font-size: 14px;
+            padding: 10px 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600; /* Более жирный текст */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Расстояние между иконкой и текстом */
+        }
+        
+        .search-btn:hover {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dadce0;
+        }
+        
+        .search-btn i {
+            font-weight: 900; /* Более жирная иконка лупы */
+            font-size: 15px;
+        }
+        
+        /* Modal window */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 60px 120px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            animation: appear 0.3s ease-out;
+        }
+        
+        .modal-text {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #202124;
+            letter-spacing: -2px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #5f6368;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .modal-content {
+                padding: 40px 60px;
+            }
+            
+            .modal-text {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .modal-content {
+                padding: 30px;
+                margin: 0 20px;
+            }
+            
+            .modal-text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="logo">
+            Was it in Epstein's files?
+        </div>
+        
+        <div class="search-container">
+            <div class="search-box" id="searchBox">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="The Ledger With Code Names">
+                <i class="fas fa-times-circle" id="clearInput" style="color: #9aa0a6; cursor: pointer; display: none;"></i>
+            </div>
+            
+            <div class="search-buttons">
+                <button class="search-btn" id="searchButton">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal window -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-text">IT WAS</div>
+        </div>
+    </div>
+
+    <script>
+        // List of placeholder phrases
+        const placeholderPhrases = [
+            "The Ledger With Code Names",
+            "The Fake Austrian Passport",
+            "The Espionage And Surveillance Manuals",
+            "Photographs Of Underage Minors",
+            "Flight Logs Of The 'Lolita Express'",
+            "A Threatening Note From A Victim",
+            "Bizarre Artworks",
+            "Discs Labeled 'Girls'",
+            "A $250,000 Check From The Founder Of Victoria's Secret",
+            "The Black Book With Global Elite Contacts"
+        ];
+        
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBox = document.getElementById('searchBox');
+        const searchButton = document.getElementById('searchButton');
+        const clearInput = document.getElementById('clearInput');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('closeModal');
+        
+        // Initialize with a random placeholder
+        let currentPlaceholderIndex = Math.floor(Math.random() * placeholderPhrases.length);
+        searchInput.placeholder = placeholderPhrases[currentPlaceholderIndex];
+        
+        // Focus and blur effects for search box
+        searchInput.addEventListener('focus', () => {
+            searchBox.classList.add('focused');
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchBox.classList.remove('focused');
+        });
+        
+        // Show/hide clear button based on input content
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.trim() !== '') {
+                clearInput.style.display = 'block';
+            } else {
+                clearInput.style.display = 'none';
+            }
+        });
+        
+        // Clear input field
+        clearInput.addEventListener('click', () => {
+            searchInput.value = '';
+            clearInput.style.display = 'none';
+            searchInput.focus();
+        });
+        
+        // Search button click handler
+        searchButton.addEventListener('click', () => {
+            if (searchInput.value.trim() !== '') {
+                // Show modal
+                modal.style.display = 'flex';
+            } else {
+                // If empty, just focus on the input
+                searchInput.focus();
+            }
+        });
+        
+        // Enter key handler
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                if (searchInput.value.trim() !== '') {
+                    modal.style.display = 'flex';
+                }
+            }
+        });
+        
+        // Close modal when clicking the close button
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            resetSearch();
+        });
+        
+        // Close modal when clicking outside the modal content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                resetSearch();
+            }
+        });
+        
+        // Function to reset search input and change placeholder
+        function resetSearch() {
+            // Clear input
+            searchInput.value = '';
+            clearInput.style.display = 'none';
+            
+            // Change to a different random placeholder
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * placeholderPhrases.length);
+            } while (newIndex === currentPlaceholderIndex && placeholderPhrases.length > 1);
+            
+            currentPlaceholderIndex = newIndex;
+            searchInput.placeholder = placeholderPhrases[currentPlaceholderIndex];
+        }
+        
+        // Also close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+                resetSearch();
+            }
+        });
+    </script>
+</body>
+</html>
